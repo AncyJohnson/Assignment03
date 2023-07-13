@@ -25,21 +25,21 @@ if search_results:
     first_video.click()
 
     # Wait for the video to load
-    time.sleep(10)
+    time.sleep(5)
 
     # Find the video player element
     video_player = driver.find_element(By.TAG_NAME, "video")
 
-    # Mute the video
-    driver.execute_script("arguments[0].muted = true;", video_player)
-    print("Video muted.")
+    # Enter full-screen mode
+    driver.execute_script("arguments[0].requestFullscreen();", video_player)
+    print("Entered full-screen mode.")
 
     # Wait for a few seconds
-    time.sleep(5)
+    time.sleep(3)
 
-    # Unmute the video
-    driver.execute_script("arguments[0].muted = false;", video_player)
-    print("Video unmuted.")
+    # Pause the video
+    driver.execute_script("arguments[0].pause();", video_player)
+    print("Video paused.")
 
 # Close the browser
 driver.quit()
