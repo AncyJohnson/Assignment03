@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import time
 
 # Configure Selenium web driver
 driver = webdriver.Chrome()  # Assuming you have Chrome WebDriver installed and in PATH
@@ -18,11 +19,27 @@ search_results = WebDriverWait(driver, 10).until(
     EC.presence_of_all_elements_located((By.ID, "video-title"))
 )
 
-# Find and select Veena's Curry World video
-for result in search_results:
-    if "Veena's Curry World" in result.text:
-        result.click()
-        break
+# Click on the first video
+if search_results:
+    first_video = search_results[0]
+    first_video.click()
+
+    # Wait for the video to load
+    time.sleep(10)
+
+    # Find the video player element
+    video_player = driver.find_element(By.TAG_NAME, "video")
+
+    # Mute the video
+    driver.execute_script("arguments[0].muted = true;", video_player)
+    print("Video muted.")
+
+    # Wait for a few seconds
+    time.sleep(5)
+
+    # Unmute the video
+    driver.execute_script("arguments[0].muted = false;", video_player)
+    print("Video unmuted.")
 
 # Close the browser
 driver.quit()
